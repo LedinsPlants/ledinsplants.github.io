@@ -19,11 +19,11 @@
 
 const hybrids = [
   {
-    name: "Kohleria PIN-HIR-008",
+    name: "<i>Kohleria</i> AL's Valborg'",
     date: "2022-10-15",
     dateDisplay: "October 15, 2022",
-    image: "https://via.placeholder.com/400x300?text=Hybrid+photo",
-    summary: "Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 14, 2022.",
+    image: "<img src="images/kohleriahybrids/alsvalborg/20220504_201318.jpg">",
+    summary: "Cross between <i>Kohleria</i> 'Astarte' × 'Brimstone'. First flowering October 14, 2022.",
     page: "hybrid-template.html"
   },
   {
