@@ -3,7 +3,7 @@
 // ===========================================================
 // This reads the `hybrids` list from hybrids-data.js and
 // builds the card HTML automatically. Used by both index.html
-// (limit = 3) and hybrids.html (limit = none).
+// (limit = 3) and hybrids.html (limit = none). 
 // ===========================================================
 
 function renderHybridCards(containerId, limit) {
