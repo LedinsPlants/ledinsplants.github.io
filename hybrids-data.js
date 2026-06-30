@@ -34,14 +34,30 @@ const hybrids = [
     summary: "Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 9, 2022.",
     page: "hybrid-template.html"
   },
-  {
-    name: "Kohleria BOB-KEI-002",
-    date: "2022-09-15",
-    dateDisplay: "September 15, 2022",
+   {
+    name: "Kohleria PIN-HIR-012",
+    date: "2022-10-15",
+    dateDisplay: "October 15, 2022",
     image: "https://via.placeholder.com/400x300?text=Hybrid+photo",
-    summary: "Cross between Kohleria 'MM's Bobina' × 'AL's Keiko'.",
+    summary: "Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 9, 2022.",
     page: "hybrid-template.html"
-  }
+  },
+   {
+    name: "Kohleria PIN-HIR-012",
+    date: "2022-10-15",
+    dateDisplay: "October 15, 2022",
+    image: "https://via.placeholder.com/400x300?text=Hybrid+photo",
+    summary: "Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 9, 2022.",
+    page: "hybrid-template.html"
+  },
+   {
+    name: "Kohleria PIN-HIR-012",
+    date: "2022-10-15",
+    dateDisplay: "October 15, 2022",
+    image: "https://via.placeholder.com/400x300?text=Hybrid+photo",
+    summary: "Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 9, 2022.",
+    page: "hybrid-template.html"
+  },
     {
     name: "Kohleria PIN-HIR-012",
     date: "2022-10-15",
@@ -50,12 +66,4 @@ const hybrids = [
     summary: "Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 9, 2022.",
     page: "hybrid-template.html"
   },
-  {
-    name: "Kohleria BOB-KEI-002",
-    date: "2022-09-15",
-    dateDisplay: "September 15, 2022",
-    image: "https://via.placeholder.com/400x300?text=Hybrid+photo",
-    summary: "Cross between Kohleria 'MM's Bobina' × 'AL's Keiko'.",
-    page: "hybrid-template.html"
-  }
 ];
