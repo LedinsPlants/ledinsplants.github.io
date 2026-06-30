@@ -19,11 +19,11 @@
 
 const hybrids = [
   {
-    name: "<i>Kohleria</i> ’AL’s Valborg’",
+    name: "<i>Kohleria</i> 'AL\u2019s Valborg'",
     date: "2022-10-15",
     dateDisplay: "October 15, 2022",
     image: "images/kohleriahybrids/alsvalborg/20220504_201318.jpg",
-    summary: "Cross between <i>Kohleria</i> ’Astarte’ × ’Brimstone’. First flowering October 14, 2022.",
+    summary: "Cross between <i>Kohleria</i> 'Astarte' × 'Brimstone'. First flowering October 14, 2022.",
     page: "hybrid-template.html"
   },
   {
