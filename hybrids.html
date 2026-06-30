@@ -9,14 +9,21 @@
 <body>
 
 <header class="site-header">
-  <h1>My Hybrid Plants</h1>
+  <h1><a href="index.html">My Hybrid Plants</a></h1>
   <p class="tagline">a site about my plant hybridizing hobby</p>
 </header>
 
 <nav class="main-nav">
   <ul>
     <li><a href="index.html">Home</a></li>
-    <li><a href="hybrids.html">My Hybrids</a></li>
+    <li class="dropdown">
+      <a href="hybrids.html">My Hybrids ▾</a>
+      <ul>
+        <li><a href="genera.html#kohleria">Kohleria</a></li>
+        <li><a href="genera.html#achimenes">Achimenes</a></li>
+        <li><a href="genera.html#eucodonia">Eucodonia</a></li>
+      </ul>
+    </li>
     <li class="dropdown">
       <a href="genera.html">Genera ▾</a>
       <ul>
@@ -35,20 +42,8 @@
   <h2>My Hybrids</h2>
   <p>Here I collect all the hybrid plants I've crossed, with photos and details about each cross.</p>
 
-  <div class="hybrid-grid">
-
-    <div class="hybrid-card">
-      <img src="https://via.placeholder.com/400x300?text=Hybrid+photo" alt="Kohleria PIN-HIR-008">
-      <div class="card-body">
-        <h3>Kohleria PIN-HIR-008</h3>
-        <div class="meta">Published October 15, 2022</div>
-        <p>Cross between Kohleria 'Pinafore' × hirsuta.</p>
-        <a class="read-more" href="hybrid-template.html">Read more →</a>
-      </div>
-    </div>
-
-    <!-- Copy the "hybrid-card" block above for each new hybrid -->
-
+  <div class="hybrid-grid" id="allHybrids">
+    <!-- Filled automatically by render-hybrids.js -->
   </div>
 
 </main>
@@ -56,6 +51,12 @@
 <footer>
   &copy; 2026 My Hybrid Plants
 </footer>
+
+<script src="hybrids-data.js"></script>
+<script src="render-hybrids.js"></script>
+<script>
+  renderHybridCards('allHybrids'); // no limit, show all
+</script>
 
 </body>
 </html>

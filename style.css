@@ -42,6 +42,15 @@ header.site-header h1 {
   letter-spacing: 0.5px;
 }
 
+header.site-header h1 a {
+  color: white;
+  text-decoration: none;
+}
+
+header.site-header h1 a:hover {
+  color: #cfe0d2;
+}
+
 header.site-header p.tagline {
   margin: 0.3rem 0 0;
   font-style: italic;
@@ -134,6 +143,15 @@ footer {
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hybrid-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  color: inherit;
 }
 
 .hybrid-card img {
@@ -166,7 +184,7 @@ footer {
   flex: 1;
 }
 
-.hybrid-card a.read-more {
+.hybrid-card .read-more {
   font-family: Arial, sans-serif;
   font-size: 0.85rem;
   font-weight: bold;

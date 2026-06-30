@@ -3,27 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ledin's Plants</title>
+<title>My Hybrid Plants</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="site-header">
-  <h1>Ledin's Plants</h1>
-  <p class="tagline">a site about my plant and hybridizing projects</p>
+  <h1><a href="index.html">My Hybrid Plants</a></h1>
+  <p class="tagline">a site about my plant hybridizing hobby</p>
 </header>
 
 <nav class="main-nav">
   <ul>
     <li><a href="index.html">Home</a></li>
-      <li class="dropdown">
+    <li class="dropdown">
       <a href="hybrids.html">My Hybrids ▾</a>
       <ul>
         <li><a href="genera.html#kohleria">Kohleria</a></li>
         <li><a href="genera.html#achimenes">Achimenes</a></li>
         <li><a href="genera.html#eucodonia">Eucodonia</a></li>
       </ul>
-     </li>   
+    </li>
     <li class="dropdown">
       <a href="genera.html">Genera ▾</a>
       <ul>
@@ -32,7 +32,7 @@
         <li><a href="genera.html#eucodonia">Eucodonia</a></li>
       </ul>
     </li>
-    <li><a href="database.html">Kohleria Database</a></li>
+    <li><a href="database.html">Database</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
 </nav>
@@ -43,45 +43,21 @@
 
   <h2>Latest hybrids</h2>
 
-  <div class="hybrid-grid">
-
-    <div class="hybrid-card">
-      <img src="https://via.placeholder.com/400x300?text=Hybrid+photo" alt="Kohleria PIN-HIR-008">
-      <div class="card-body">
-        <h3>Kohleria PIN-HIR-008</h3>
-        <div class="meta">Published October 15, 2022</div>
-        <p>Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 14, 2022.</p>
-        <a class="read-more" href="hybrid-template.html">Read more →</a>
-      </div>
-    </div>
-
-    <div class="hybrid-card">
-      <img src="https://via.placeholder.com/400x300?text=Hybrid+photo" alt="Kohleria PIN-HIR-012">
-      <div class="card-body">
-        <h3>Kohleria PIN-HIR-012</h3>
-        <div class="meta">Published October 15, 2022</div>
-        <p>Cross between Kohleria 'Pinafore' × hirsuta. First flowering October 9, 2022.</p>
-        <a class="read-more" href="hybrid-template.html">Read more →</a>
-      </div>
-    </div>
-
-    <div class="hybrid-card">
-      <img src="https://via.placeholder.com/400x300?text=Hybrid+photo" alt="Kohleria BOB-KEI-002">
-      <div class="card-body">
-        <h3>Kohleria BOB-KEI-002</h3>
-        <div class="meta">Published September 15, 2022</div>
-        <p>Cross between Kohleria 'MM's Bobina' × 'AL's Keiko'.</p>
-        <a class="read-more" href="hybrid-template.html">Read more →</a>
-      </div>
-    </div>
-
+  <div class="hybrid-grid" id="latestHybrids">
+    <!-- Filled automatically by render-hybrids.js -->
   </div>
 
 </main>
 
 <footer>
-  &copy; 2026 Ledin's Plants
+  &copy; 2026 My Hybrid Plants
 </footer>
+
+<script src="hybrids-data.js"></script>
+<script src="render-hybrids.js"></script>
+<script>
+  renderHybridCards('latestHybrids', 3); // show only the 3 newest
+</script>
 
 </body>
 </html>
