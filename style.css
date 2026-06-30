@@ -207,8 +207,8 @@ footer {
 /* ===== Single hybrid post ===== */
 .hybrid-detail img.main-photo {
   width: 100%;
-  max-height: 480px;
-  object-fit: cover;
+  max-width: 600px;   /* <--- Ändrad till max-width och 600px! */
+  height: auto;       /* <--- Lägg till denna så bilden inte blir förvrängd */
   border-radius: 8px;
   margin-bottom: 1.5rem;
 }
