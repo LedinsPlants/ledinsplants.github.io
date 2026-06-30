@@ -42,13 +42,13 @@ header.site-header h1 {
   letter-spacing: 0.5px;
 }
 
-header.site-header h1 a {
+header.site-header h1 a,
+header.site-header h1 a:link,
+header.site-header h1 a:visited,
+header.site-header h1 a:hover,
+header.site-header h1 a:active {
   color: white;
   text-decoration: none;
-}
-
-header.site-header h1 a:hover {
-  color: #cfe0d2;
 }
 
 header.site-header p.tagline {
@@ -136,7 +136,11 @@ footer {
   margin-top: 2rem;
 }
 
-.hybrid-card {
+.hybrid-card,
+.hybrid-card:link,
+.hybrid-card:visited,
+.hybrid-card:hover,
+.hybrid-card:active {
   background: var(--green-light);
   border-radius: 8px;
   overflow: hidden;
@@ -145,13 +149,22 @@ footer {
   flex-direction: column;
   text-decoration: none;
   color: inherit;
+}
+
+.hybrid-card {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .hybrid-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-  color: inherit;
+}
+
+.hybrid-card h3,
+.hybrid-card p,
+.hybrid-card .meta,
+.hybrid-card .read-more {
+  text-decoration: none;
 }
 
 .hybrid-card img {
