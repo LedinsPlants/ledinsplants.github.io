@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Database – My Hybrid Plants</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1>My Hybrid Plants</h1>
+  <p class="tagline">a site about my plant hybridizing hobby</p>
+</header>
+
+<nav class="main-nav">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="hybrids.html">My Hybrids</a></li>
+    <li class="dropdown">
+      <a href="genera.html">Genera ▾</a>
+      <ul>
+        <li><a href="genera.html#kohleria">Kohleria</a></li>
+        <li><a href="genera.html#achimenes">Achimenes</a></li>
+        <li><a href="genera.html#eucodonia">Eucodonia</a></li>
+      </ul>
+    </li>
+    <li><a href="database.html">Database</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <h2>List of Kohleria Cultivars</h2>
+  <p>Search or click column headers to sort. Add new rows by editing the <code>rows</code> list near the bottom of this file.</p>
+
+  <div class="table-controls">
+    <input type="text" id="searchBox" placeholder="Search by name, parentage, hybridizer...">
+  </div>
+
+  <table class="database" id="cultivarTable">
+    <thead>
+      <tr>
+        <th data-key="name">Name</th>
+        <th data-key="parentage">Parentage</th>
+        <th data-key="hybridizer">Hybridizer</th>
+        <th data-key="year">Year</th>
+        <th data-key="fertile">Pollen Fertile</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- Filled in by JavaScript -->
+    </tbody>
+  </table>
+
+</main>
+
+<footer>
+  &copy; 2026 My Hybrid Plants
+</footer>
+
+<script>
+  // ===== ADD YOUR DATA HERE =====
+  // Add/remove/edit rows in this list. Each row is one object.
+  const rows = [
+    { name: "Kohleria 'Pinafore'", parentage: "unknown", hybridizer: "M. Skog", year: 1985, fertile: "Yes" },
+    { name: "Kohleria PIN-HIR-008", parentage: "Pinafore × hirsuta", hybridizer: "You", year: 2022, fertile: "Yes" },
+    { name: "Kohleria BOB-KEI-002", parentage: "MM's Bobina × AL's Keiko", hybridizer: "You", year: 2022, fertile: "No" }
+  ];
+  // ================================
+
+  const tableBody = document.getElementById('tableBody');
+  const searchBox = document.getElementById('searchBox');
+  let sortKey = null;
+  let sortAsc = true;
+
+  function renderTable(data) {
+    tableBody.innerHTML = '';
+    data.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${row.name}</td>
+        <td>${row.parentage}</td>
+        <td>${row.hybridizer}</td>
+        <td>${row.year}</td>
+        <td>${row.fertile}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  function applyFilterAndSort() {
+    const query = searchBox.value.toLowerCase();
+    let filtered = rows.filter(row =>
+      Object.values(row).join(' ').toLowerCase().includes(query)
+    );
+    if (sortKey) {
+      filtered.sort((a, b) => {
+        if (a[sortKey] < b[sortKey]) return sortAsc ? -1 : 1;
+        if (a[sortKey] > b[sortKey]) return sortAsc ? 1 : -1;
+        return 0;
+      });
+    }
+    renderTable(filtered);
+  }
+
+  searchBox.addEventListener('input', applyFilterAndSort);
+
+  document.querySelectorAll('th[data-key]').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.getAttribute('data-key');
+      if (sortKey === key) {
+        sortAsc = !sortAsc;
+      } else {
+        sortKey = key;
+        sortAsc = true;
+      }
+      applyFilterAndSort();
+    });
+  });
+
+  // Initial rendering
+  applyFilterAndSort();
+</script>
+
+</body>
+</html>

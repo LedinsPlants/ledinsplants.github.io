@@ -1,0 +1,256 @@
+/* ===== Base styles ===== */
+:root {
+  --green-dark: #2f4a35;
+  --green-mid: #4f7a5a;
+  --green-light: #eef3ee;
+  --accent: #b5651d;
+  --text: #2b2b2b;
+  --max-width: 1000px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  color: var(--text);
+  background: #fdfdfb;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--green-dark);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* ===== Header ===== */
+header.site-header {
+  background: var(--green-dark);
+  color: white;
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+}
+
+header.site-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  letter-spacing: 0.5px;
+}
+
+header.site-header p.tagline {
+  margin: 0.3rem 0 0;
+  font-style: italic;
+  color: #cfe0d2;
+}
+
+/* ===== Navigation ===== */
+nav.main-nav {
+  background: var(--green-mid);
+}
+
+nav.main-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+nav.main-nav li {
+  position: relative;
+}
+
+nav.main-nav a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 0.9rem 1.2rem;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+nav.main-nav a:hover {
+  background: var(--green-dark);
+  color: white;
+}
+
+/* Dropdown */
+nav.main-nav .dropdown ul {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--green-dark);
+  flex-direction: column;
+  min-width: 220px;
+  z-index: 10;
+}
+
+nav.main-nav .dropdown:hover ul {
+  display: flex;
+}
+
+nav.main-nav .dropdown ul a {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== Layout ===== */
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.85rem;
+  color: #777;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== Homepage: hybrid cards ===== */
+.hybrid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.hybrid-card {
+  background: var(--green-light);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.hybrid-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.hybrid-card .card-body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hybrid-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+}
+
+.hybrid-card .meta {
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.6rem;
+}
+
+.hybrid-card p {
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+.hybrid-card a.read-more {
+  font-family: Arial, sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ===== Single hybrid post ===== */
+.hybrid-detail img.main-photo {
+  width: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+table.facts {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+}
+
+table.facts th, table.facts td {
+  text-align: left;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid #ddd;
+}
+
+table.facts th {
+  width: 220px;
+  color: var(--green-dark);
+  background: var(--green-light);
+}
+
+/* ===== Database table (cultivars) ===== */
+.table-controls {
+  margin-bottom: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.table-controls input {
+  padding: 0.5rem 0.8rem;
+  width: 100%;
+  max-width: 320px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+table.database {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 0.9rem;
+}
+
+table.database th, table.database td {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+table.database th {
+  background: var(--green-dark);
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+table.database th:hover {
+  background: var(--green-mid);
+}
+
+table.database tr:hover td {
+  background: #f5f8f5;
+}
+
+@media (max-width: 600px) {
+  header.site-header h1 {
+    font-size: 1.6rem;
+  }
+  table.facts th {
+    width: 140px;
+  }
+}
