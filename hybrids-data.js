@@ -21,7 +21,7 @@ const hybrids = [
     {
     name: "<i>Kohleria</i> 'AL\u2019s Egon'",
     date: "2022-10-15",
-    dateDisplay: "October 15, 2022",
+    dateDisplay: "July 1, 2026",
     image: "/images/kohleriahybrids/als-egon/kohleria-als-egon-2.jpg",
     summary: "Cross between <i>Kohleria</i> 'AL\u2019s Palanga' × 'AL\u2019s Aitvaras'.",
     page: "hybrids/kohleria/als-egon.html"
@@ -29,9 +29,9 @@ const hybrids = [
   {
     name: "<i>Kohleria</i> 'AL\u2019s Valborg'",
     date: "2022-10-15",
-    dateDisplay: "October 15, 2022",
+    dateDisplay: "June 30, 2026",
     image: "images/kohleriahybrids/als-valborg/kohleria-als-valborg.jpg",
-    summary: "Cross between <i>Kohleria</i> 'Astarte' × 'Brimstone'. First flowering October 14, 2022.",
+    summary: "Cross between <i>Kohleria</i> 'Astarte' × 'Brimstone'.",
     page: "hybrids/kohleria/als-valborg.html"
   },
   {
