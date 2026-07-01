@@ -18,6 +18,14 @@
 // ===========================================================
 
 const hybrids = [
+    {
+    name: "<i>Kohleria</i> 'AL\u2019s Egon'",
+    date: "2022-10-15",
+    dateDisplay: "October 15, 2022",
+    image: "/images/kohleriahybrids/als-egon/kohleria-als-egon-2.jpg",
+    summary: "Cross between <i>Kohleria</i> 'AL\u2019s Palanga' × 'AL\u2019s Aitvaras'.",
+    page: "hybrids/kohleria/als-egon.html"
+  },
   {
     name: "<i>Kohleria</i> 'AL\u2019s Valborg'",
     date: "2022-10-15",
