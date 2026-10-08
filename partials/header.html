@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sinningia Hybrids – Ledin's Plants</title>
-<link rel="stylesheet" href="/style.css">
-</head>
-<body>
-
-<!-- header:start (skapas av sync_layout.py från partials/header.html - ändra i den filen, inte här) -->
 <header class="site-header">
   <h1><a href="/index.html">Ledin's Plants</a></h1>
   <p class="tagline">a site about my plants and hybridizing</p>
@@ -39,30 +28,3 @@
     <li><a href="/contact.html">Contact</a></li>
   </ul>
 </nav>
-<!-- header:end -->
-
-<main>
-
-  <h2>My <i>Sinningia</i> Hybrids</h2>
-  <p>Here I collect all the hybrid plants I've crossed, with photos and details about each cross.</p>
-
-  <div class="hybrid-grid" id="allHybrids">
-    <!-- Filled automatically by render-hybrids.js -->
-  </div>
-
-</main>
-
-<!-- footer:start (skapas av sync_layout.py från partials/footer.html - ändra i den filen, inte här) -->
-<footer>
-  &copy; 2026 Ledin's Plants
-</footer>
-<!-- footer:end -->
-
-<script src="/hybrids-data.js"></script>
-<script src="/render-hybrids.js"></script>
-<script>
-  renderHybridCards('allHybrids', null, 'sinningia'); // no limit, only this group
-</script>
-
-</body>
-</html>

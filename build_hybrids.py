@@ -311,7 +311,7 @@ def build_page(template, row, name, images):
     gallery = "\n\n".join(img_tag(main) for main, _ in images[1:])
 
     page = template
-    page = page.replace("{{TITLE}}", html.escape(strip_tags(name)) + " – My Hybrid Plants")
+    page = page.replace("{{TITLE}}", html.escape(strip_tags(name)) + " – Ledin's Plants")
     page = page.replace("{{NAME}}", name)
     page = page.replace("{{PHOTO}}", photo)
     page = page.replace("{{FACTS}}", facts)
