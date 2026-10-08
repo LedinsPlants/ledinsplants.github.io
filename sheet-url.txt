@@ -3,9 +3,9 @@
 # Adressen får du via Arkiv -> Dela -> Publicera på webben (välj bladet och formatet CSV).
 #
 # Exempel (ta bort # framför raderna och byt ut adresserna):
-# kohleria  = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=0&single=true&output=csv
-# achimenes = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=111&single=true&output=csv
-# sinningia = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=222&single=true&output=csv
-# misc      = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=333&single=true&output=csv
+kohleria  = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=1205267741&single=true&output=csv
+achimenes = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=1234484613&single=true&output=csv
+sinningia = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=1399907788&single=true&output=csv
+misc      = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=28606789&single=true&output=csv
 #
 # Är alla rader här bortkommenterade används filen hybrids.csv i stället.
