@@ -18,7 +18,7 @@ const hybrids = [
     "name": "<i>Kohleria</i> 'AL\u2019s Valborg'",
     "date": "2022-10-15",
     "dateDisplay": "June 30, 2026",
-    "image": "images/kohleriahybrids/als-valborg/kohleria-als-valborg.jpg",
+    "image": "/images/kohleriahybrids/als-valborg/kohleria-als-valborg.jpg",
     "summary": "Cross between <i>Kohleria</i> 'Astarte' \u00d7 'Brimstone'.",
     "page": "hybrids/kohleria/als-valborg.html",
     "genus": "kohleria"

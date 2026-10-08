@@ -20,6 +20,7 @@ import csv
 import html
 import io
 import json
+import os
 import re
 import sys
 import urllib.request
@@ -33,6 +34,19 @@ DATA_JS = ROOT / "hybrids-data.js"
 
 MARKER = "<!-- auto-generated-hybrid-page -->"
 PLACEHOLDER_IMAGE = "https://via.placeholder.com/400x300?text=Hybrid+photo"
+
+# --- Bilder ---------------------------------------------------------------
+IMAGE_SLOTS = 6                     # kolumnerna image_1 ... image_6
+MAX_MAIN_PX = 1600                  # längsta sida på sidans bilder
+MAX_THUMB_PX = 600                  # längsta sida på miniatyren (kortet)
+MAX_DOWNLOAD_BYTES = 40 * 1024 * 1024
+IMAGES_DIR = ROOT / "images"
+IMAGE_MANIFEST = IMAGES_DIR / "drive-sources.json"
+# Kan bytas ut med miljövariabeln DRIVE_DOWNLOAD_URL (används vid testning).
+DRIVE_DOWNLOAD_URL = os.environ.get(
+    "DRIVE_DOWNLOAD_URL", "https://drive.google.com/uc?export=download&id={id}")
+
+WARNINGS = []
 
 MONTHS = ["January", "February", "March", "April", "May", "June", "July",
           "August", "September", "October", "November", "December"]
@@ -156,13 +170,131 @@ def split_list(text):
     return [p.strip() for p in re.split(r"[;\n]+", text) if p.strip()]
 
 
-def build_page(template, row, name, image):
+def warn(message):
+    WARNINGS.append(message)
+    print(f"::warning::{message}")
+
+
+def drive_file_id(url):
+    """Plockar ut fil-id ur en Google Drive-länk, annars None."""
+    if "drive.google.com" not in url and "docs.google.com" not in url:
+        return None
+    match = re.search(r"/d/([A-Za-z0-9_-]{15,})", url) or \
+        re.search(r"[?&]id=([A-Za-z0-9_-]{15,})", url)
+    return match.group(1) if match else None
+
+
+def download_drive_file(file_id):
+    request = urllib.request.Request(
+        DRIVE_DOWNLOAD_URL.format(id=file_id),
+        headers={"User-Agent": "Mozilla/5.0 (hybrid-builder)"})
+    with urllib.request.urlopen(request, timeout=90) as response:
+        content_type = response.headers.get("Content-Type", "")
+        data = response.read(MAX_DOWNLOAD_BYTES + 1)
+    if len(data) > MAX_DOWNLOAD_BYTES:
+        raise ValueError("filen är större än 40 MB")
+    if content_type.startswith("text/html") or data[:100].lstrip().lower().startswith(b"<!doctype html"):
+        raise ValueError("Google gav en webbsida i stället för bilden. "
+                         "Är filen delad med 'Alla med länken'?")
+    return data
+
+
+def save_resized(data, dest, max_px):
+    """Sparar en förminskad JPEG utan metadata (inga GPS-uppgifter m.m.)."""
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        import subprocess
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "pillow", "pillow-heif"])
+        from PIL import Image, ImageOps
+    try:
+        import pillow_heif
+        pillow_heif.register_heif_opener()
+    except Exception:
+        pass
+    image = Image.open(io.BytesIO(data))
+    image = ImageOps.exif_transpose(image)   # rätt rotation innan EXIF slängs
+    icc = image.info.get("icc_profile")
+    image = image.convert("RGB")
+    image.thumbnail((max_px, max_px), Image.LANCZOS)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    options = {"quality": 85, "optimize": True, "progressive": True}
+    if icc:
+        options["icc_profile"] = icc          # färgprofil är ofarlig att behålla
+    image.save(dest, "JPEG", **options)       # inget exif= => all metadata utelämnas
+
+
+def load_manifest():
+    if IMAGE_MANIFEST.exists():
+        try:
+            return json.loads(IMAGE_MANIFEST.read_text(encoding="utf-8"))
+        except ValueError:
+            pass
+    return {}
+
+
+def image_values(row):
+    values = [row.get(f"image_{n}", "") for n in range(1, IMAGE_SLOTS + 1)]
+    values = [v for v in values if v]
+    if not values:  # äldre kolumner: image + more_images
+        values = ([row["image"]] if row.get("image") else []) + split_list(row.get("more_images", ""))
+    return values
+
+
+def prepare_images(row, genus, hybrid_id, manifest):
+    """Returnerar [(sida, miniatyr), ...] i samma ordning som kolumnerna.
+
+    Drive-länkar hämtas, förminskas och sparas i images/<genus>hybrids/<id>/.
+    Vanliga sökvägar och webbadresser används som de är.
+    """
+    folder = f"images/{genus}hybrids/{hybrid_id}"
+    result, keep = [], set()
+    for number, value in enumerate(image_values(row), start=1):
+        file_id = drive_file_id(value)
+        if not file_id:
+            result.append((value, value))
+            continue
+        main_rel = f"{folder}/{hybrid_id}-{number}.jpg"
+        thumb_rel = f"{folder}/{hybrid_id}-{number}-thumb.jpg"
+        wanted = [main_rel] + ([thumb_rel] if number == 1 else [])
+        keep.update(wanted)
+        up_to_date = all((ROOT / rel).exists() and manifest.get(rel) == file_id for rel in wanted)
+        if not up_to_date:
+            try:
+                data = download_drive_file(file_id)
+                save_resized(data, ROOT / main_rel, MAX_MAIN_PX)
+                if number == 1:
+                    save_resized(data, ROOT / thumb_rel, MAX_THUMB_PX)
+                for rel in wanted:
+                    manifest[rel] = file_id
+                print(f"  bild hämtad: {main_rel}")
+            except ImportError:
+                warn("Pillow saknas, kan inte förminska bilder (pip install pillow).")
+                continue
+            except Exception as error:
+                if all((ROOT / rel).exists() for rel in wanted):
+                    print(f"  (behåller tidigare bild för {main_rel})")
+                else:
+                    warn(f"{hybrid_id}: bild {number} kunde inte hämtas ({error}).")
+                    continue
+        result.append((main_rel, thumb_rel if number == 1 else main_rel))
+    # Städa bort bilder som skapats av skriptet men inte längre används.
+    for rel in [r for r in list(manifest) if r.startswith(folder + "/") and r not in keep]:
+        path = ROOT / rel
+        if path.exists():
+            path.unlink()
+        del manifest[rel]
+    return result
+
+
+def build_page(template, row, name, images):
     alt = html.escape(strip_tags(name), quote=True)
 
-    photo = ""
-    if image:
-        photo = (f'<img class="main-photo" src="{html.escape(site_path(image), quote=True)}" '
-                 f'alt="{alt}">')
+    def img_tag(src):
+        return (f'<img class="main-photo" src="{html.escape(site_path(src), quote=True)}" '
+                f'alt="{alt}">')
+
+    photo = img_tag(images[0][0]) if images else ""
 
     facts = ""
     fact_lines = [f"<tr><th>{label}</th><td>{row[col]}</td></tr>"
@@ -175,14 +307,8 @@ def build_page(template, row, name, image):
         paragraphs = [p.strip() for p in re.split(r"\r?\n+", row["notes"]) if p.strip()]
         notes = "<h3>Notes</h3>\n" + "\n".join(f"<p>{p}</p>" for p in paragraphs)
 
-    gallery = ""
-    extra = split_list(row.get("more_images", ""))
-    if extra:
-        imgs = "\n".join(
-            f'<img src="{html.escape(site_path(p), quote=True)}" alt="{alt}" '
-            f'style="max-width:32%;height:auto;margin:0 0.5%;">'
-            for p in extra)
-        gallery = f'<div class="gallery">\n{imgs}\n</div>'
+    # Övriga bilder staplas under anteckningarna, som på handgjorda sidor.
+    gallery = "\n\n".join(img_tag(main) for main, _ in images[1:])
 
     page = template
     page = page.replace("{{TITLE}}", html.escape(strip_tags(name)) + " – My Hybrid Plants")
@@ -207,6 +333,7 @@ def main():
 
     entries = []
     seen = set()
+    manifest = load_manifest()
     written, skipped, removed = [], [], []
 
     for number, row in enumerate(rows, start=2):  # rad 1 är rubrikraden
@@ -243,12 +370,13 @@ def main():
         if not summary and row.get("parentage"):
             summary = f"Cross between {row['parentage']}."
 
-        image = row.get("image", "")
+        images = prepare_images(row, genus, hybrid_id, manifest)
+        card_image = images[0][1] if images else ""
         entries.append({
             "name": name,
             "date": date,
             "dateDisplay": row.get("date_display") or pretty_date(date),
-            "image": image or PLACEHOLDER_IMAGE,
+            "image": site_path(card_image) if card_image else PLACEHOLDER_IMAGE,
             "summary": summary,
             "page": page_rel,
             "genus": genus,
@@ -259,8 +387,12 @@ def main():
             skipped.append(page_rel)
             continue
         page_file.parent.mkdir(parents=True, exist_ok=True)
-        page_file.write_text(build_page(template, row, name, image), encoding="utf-8")
+        page_file.write_text(build_page(template, row, name, images), encoding="utf-8")
         written.append(page_rel)
+
+    if manifest or IMAGE_MANIFEST.exists():
+        IMAGES_DIR.mkdir(exist_ok=True)
+        IMAGE_MANIFEST.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
 
     # Nyaste först; vid lika datum behålls ordningen från tabellen.
     entries.sort(key=lambda e: e["date"], reverse=True)
@@ -284,6 +416,8 @@ def main():
         print(f"  Handgjorda sidor som lämnades orörda: {len(skipped)}")
         for p in skipped:
             print(f"    = {p}")
+    if WARNINGS:
+        print(f"  VARNINGAR: {len(WARNINGS)} (se ovan)")
     if removed:
         print(f"  Sidor borttagna (publish = no): {len(removed)}")
         for p in removed:
