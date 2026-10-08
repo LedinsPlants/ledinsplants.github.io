@@ -13,6 +13,8 @@ on:
       - "sheet-url.txt"
       - "page-template.html"
       - "build_hybrids.py"
+      - "sync_layout.py"
+      - "partials/**"
 
 permissions:
   contents: write
@@ -33,11 +35,14 @@ jobs:
       - name: Build pages
         run: python build_hybrids.py
 
+      - name: Sync header and footer
+        run: python sync_layout.py
+
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add hybrids-data.js hybrids images
+          git add -A
           git diff --cached --quiet || git commit -m "Auto-update hybrid pages"
           git pull --rebase
           git push
