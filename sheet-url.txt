@@ -1,0 +1,2 @@
+# Klistra in webbadressen till ditt publicerade Google Sheet (CSV) på en egen rad nedan.
+# Rader som börjar med # ignoreras. Lämnas den tom används filen hybrids.csv i stället.
