@@ -1,2 +1,11 @@
-# Klistra in webbadressen till ditt publicerade Google Sheet (CSV) på en egen rad nedan.
-# Rader som börjar med # ignoreras. Lämnas den tom används filen hybrids.csv i stället.
+# Här kopplar du ihop sajten med ditt Google Sheet.
+# Skriv en rad per blad (flik), i formen:   växtgrupp = adress
+# Adressen får du via Arkiv -> Dela -> Publicera på webben (välj bladet och formatet CSV).
+#
+# Exempel (ta bort # framför raderna och byt ut adresserna):
+# kohleria  = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=0&single=true&output=csv
+# achimenes = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=111&single=true&output=csv
+# sinningia = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=222&single=true&output=csv
+# misc      = https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=333&single=true&output=csv
+#
+# Är alla rader här bortkommenterade används filen hybrids.csv i stället.

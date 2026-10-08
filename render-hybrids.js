@@ -6,13 +6,24 @@
 // (limit = 3) and hybrids.html (limit = none). 
 // ===========================================================
 
-function renderHybridCards(containerId, limit) {
+// genus (valfritt): visa bara hybrider av den växtgruppen, t.ex. 'kohleria'.
+// 'other' visar alla som inte är kohleria, achimenes eller sinningia.
+const MAIN_GENERA = ['kohleria', 'achimenes', 'sinningia'];
+
+function renderHybridCards(containerId, limit, genus) {
   const container = document.getElementById(containerId);
   if (!container) return;
 
   // Sort newest first
-  const sorted = [...hybrids].sort((a, b) => new Date(b.date) - new Date(a.date));
+  const wanted = !genus ? hybrids : hybrids.filter(h =>
+    genus === 'other' ? !MAIN_GENERA.includes(h.genus) : h.genus === genus);
+  const sorted = [...wanted].sort((a, b) => new Date(b.date) - new Date(a.date));
   const toShow = limit ? sorted.slice(0, limit) : sorted;
+
+  if (toShow.length === 0) {
+    container.innerHTML = '<p>No hybrids published here yet.</p>';
+    return;
+  }
 
   container.innerHTML = toShow.map(h => `
     <a class="hybrid-card" href="${h.page}">
