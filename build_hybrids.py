@@ -3,8 +3,8 @@
 """
 Bygger hybridsidorna och hybrids-data.js utifrån en tabell.
 
-Tabellen hämtas från Google Sheets om sheet-url.txt innehåller en webbadress,
-annars läses filen hybrids.csv i repot.
+Tabellerna hämtas från Google Sheets om sheet-url.txt innehåller webbadresser
+(en per blad/växtgrupp), annars läses filen hybrids.csv i repot.
 
 Skriptet körs automatiskt av GitHub Actions (se .github/workflows/build.yml),
 men kan också köras för hand:  python build_hybrids.py
@@ -27,7 +27,6 @@ from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-LOCAL_CSV = ROOT / "hybrids.csv"
 URL_FILE = ROOT / "sheet-url.txt"
 TEMPLATE = ROOT / "page-template.html"
 DATA_JS = ROOT / "hybrids-data.js"
@@ -59,22 +58,35 @@ def fail(message):
     sys.exit(1)
 
 
-def sheet_url():
-    if not URL_FILE.exists():
-        return None
-    for line in URL_FILE.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if line and not line.startswith("#"):
-            return line
-    return None
+def read_sources():
+    """Läser sheet-url.txt. Varje rad är antingen en adress eller 'genus = adress'.
+
+    Exempel (ett blad per växtgrupp):
+        kohleria  = https://docs.google.com/.../pub?gid=0&single=true&output=csv
+        sinningia = https://docs.google.com/.../pub?gid=123&single=true&output=csv
+
+    Etiketten (t.ex. kohleria) används som genus för rader där kolumnen genus
+    är tom. Adressen får också vara en filsökväg i repot (t.ex. hybrids.csv).
+    """
+    sources = []
+    if URL_FILE.exists():
+        for line in URL_FILE.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            match = re.match(r"^([A-Za-z0-9_-]+)\s*=\s*(\S+)$", line)
+            if match:
+                sources.append((slugify(match.group(1)), match.group(2)))
+            else:
+                sources.append((None, line.split()[0]))
+    return sources
 
 
-def load_csv_text():
-    url = sheet_url()
-    if url:
-        print("Hämtar tabellen från Google Sheets ...")
+def load_csv_text(location):
+    if re.match(r"^https?://", location):
+        print(f"Hämtar {location[:70]} ...")
         request = urllib.request.Request(
-            url, headers={"User-Agent": "Mozilla/5.0 (hybrid-builder)"})
+            location, headers={"User-Agent": "Mozilla/5.0 (hybrid-builder)"})
         try:
             with urllib.request.urlopen(request, timeout=60) as response:
                 text = response.read().decode("utf-8-sig")
@@ -85,10 +97,22 @@ def load_csv_text():
             fail("Adressen gav en webbsida i stället för en CSV-fil. "
                  "Har du valt Publicera på webben -> CSV i Google Sheets?")
         return text
-    if LOCAL_CSV.exists():
-        print("Läser hybrids.csv ...")
-        return LOCAL_CSV.read_text(encoding="utf-8-sig")
-    fail("Hittar varken en adress i sheet-url.txt eller filen hybrids.csv.")
+    path = ROOT / location
+    if not path.exists():
+        fail(f"Hittar inte filen {location}.")
+    print(f"Läser {location} ...")
+    return path.read_text(encoding="utf-8-sig")
+
+
+def load_all_rows():
+    sources = read_sources() or [(None, "hybrids.csv")]
+    rows = []
+    for label, location in sources:
+        for row in parse_rows(load_csv_text(location)):
+            if label and not row.get("genus"):
+                row["genus"] = label
+            rows.append(row)
+    return rows
 
 
 def parse_rows(text):
@@ -177,7 +201,7 @@ def main():
     if MARKER not in template:
         fail(f"page-template.html måste innehålla raden {MARKER}")
 
-    rows = parse_rows(load_csv_text())
+    rows = load_all_rows()
     if not rows:
         fail("Tabellen innehåller inga rader. Avbryter så att inget skrivs över.")
 
