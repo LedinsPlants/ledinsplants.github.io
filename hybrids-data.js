@@ -18,7 +18,7 @@ const hybrids = [
     "name": "<i>Kohleria</i> PIN-HIR-013",
     "date": "2026-10-09",
     "dateDisplay": "October 9, 2026",
-    "image": "https://via.placeholder.com/400x300?text=Hybrid+photo",
+    "image": "/images/kohleriahybrids/pin-hir-013/pin-hir-013-1-thumb.jpg",
     "summary": "Cross between <i>Kohleria</i>  'Pinafore' \u00d7 <i>hirsuta</i>.",
     "page": "hybrids/kohleria/pin-hir-013.html",
     "genus": "kohleria"
