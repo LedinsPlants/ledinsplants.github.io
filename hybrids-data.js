@@ -6,6 +6,15 @@
 
 const hybrids = [
   {
+    "name": "<i>Kohleria</i> 'AL\u2019s Aitvaras'",
+    "date": "2026-10-09",
+    "dateDisplay": "October 9, 2026",
+    "image": "/images/kohleriahybrids/als-aitvaras/als-aitvaras-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i>  PIN-HIR-013 \u00d7 'Ryskan'.",
+    "page": "hybrids/kohleria/als-aitvaras.html",
+    "genus": "kohleria"
+  },
+  {
     "name": "<i>Kohleria</i> 'AL\u2019s Egon'",
     "date": "2022-10-15",
     "dateDisplay": "July 1, 2026",
