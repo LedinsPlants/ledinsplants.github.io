@@ -53,15 +53,16 @@ MONTHS = ["January", "February", "March", "April", "May", "June", "July",
 
 # (rubrik på sidan, kolumn i tabellen)
 FACT_ROWS = [
-    ("Official name", "official_name"),
-    ("Holding name", "holding_name"),
-    ("Parentage", "parentage"),
+    ("Released as", "official_name"),
+    ("Working name", "holding_name"),
+    ("Parentage", "parentage"),            # byggs av seed_parent/pollen_parent, se build_parentage
     ("Cross pollination", "cross_date"),
     ("Seeds harvested", "seeds_harvested"),
     ("Seeds sown", "seeds_sown"),
-    ("First flowering", "first_flowering"),
-    ("Pollen", "pollen"),
+    ("First bloom", "first_flowering"),
+    ("Produces pollen?", "pollen"),
     ("Flower size", "flower_size"),
+    ("Still in cultivation?", "in_cultivation"),
 ]
 
 NO_VALUES = {"no", "nej", "n", "false", "0"}
@@ -287,7 +288,63 @@ def prepare_images(row, genus, hybrid_id, manifest):
     return result
 
 
-def build_page(template, row, name, images):
+def find_target(raw_id, genus, targets):
+    """Hittar sidan för ett id. Accepterar 'id' eller 'genus/id'."""
+    parts = [slugify(p) for p in raw_id.split("/") if p.strip()]
+    if not parts:
+        return None
+    if len(parts) >= 2:
+        return targets.get(f"{parts[-2]}/{parts[-1]}")
+    return targets.get(f"{genus}/{parts[0]}") or targets.get(parts[0])
+
+
+def build_parentage(row, genus, hybrid_id, own_page, targets, names, links=True):
+    """Bygger raden 'Släkte frövärd × pollenförälder' med länkar där id finns.
+
+    Faller tillbaka på kolumnen parentage (fri text) om inga av de nya
+    kolumnerna seed_parent / pollen_parent (+ _id) är ifyllda.
+    """
+    seed, pollen = row.get("seed_parent", ""), row.get("pollen_parent", "")
+    seed_id, pollen_id = row.get("seed_parent_id", ""), row.get("pollen_parent_id", "")
+    if not (seed or pollen or seed_id or pollen_id):
+        return row.get("parentage", "")
+    if links and row.get("parentage"):
+        print(f"  {hybrid_id}: kolumnen parentage ignoreras eftersom seed/pollen-kolumnerna är ifyllda.")
+
+    def one(text, parent_id, label):
+        target = find_target(parent_id, genus, targets) if parent_id else None
+        if parent_id and not target and links:
+            warn(f"{hybrid_id}: {label} '{parent_id}' hittades inte bland sidorna, så ingen länk skapas.")
+        if target == own_page:
+            target = None
+        if not text and target:
+            text = names.get(target) or parent_id
+        if not text:
+            return "unknown"
+        if target and links:
+            return f'<a href="/{target}">{text}</a>'
+        return text
+
+    prefix = "" if genus == "misc" else f"<i>{genus.capitalize()}</i> "
+    return (f"{prefix}{one(seed, seed_id, 'seed_parent_id')} × "
+            f"{one(pollen, pollen_id, 'pollen_parent_id')}")
+
+
+def disk_pages(skip):
+    """Alla hybridsidor som ligger i repot (även handgjorda), nyckel 'genus/id' och 'id'."""
+    found = {}
+    base = ROOT / "hybrids"
+    if base.exists():
+        for page in sorted(base.rglob("*.html")):
+            rel = page.relative_to(ROOT).as_posix()
+            if rel in skip:
+                continue
+            found[f"{page.parent.name}/{page.stem}"] = rel
+            found.setdefault(page.stem, rel)
+    return found
+
+
+def build_page(template, row, name, images, parentage=""):
     alt = html.escape(strip_tags(name), quote=True)
 
     def img_tag(src):
@@ -297,8 +354,9 @@ def build_page(template, row, name, images):
     photo = img_tag(images[0][0]) if images else ""
 
     facts = ""
-    fact_lines = [f"<tr><th>{label}</th><td>{row[col]}</td></tr>"
-                  for label, col in FACT_ROWS if row.get(col)]
+    values = dict(row, parentage=parentage)
+    fact_lines = [f"<tr><th>{label}</th><td>{values[col]}</td></tr>"
+                  for label, col in FACT_ROWS if values.get(col)]
     if fact_lines:
         facts = '<table class="facts">\n' + "\n".join(fact_lines) + "\n</table>"
 
@@ -336,39 +394,64 @@ def main():
     manifest = load_manifest()
     written, skipped, removed = [], [], []
 
+    # Steg 1: sortera ut raderna och ta reda på vilka sidor som ska finnas,
+    # så att en hybrid kan länka till en annan oavsett ordning i tabellen.
+    jobs = []
     for number, row in enumerate(rows, start=2):  # rad 1 är rubrikraden
         hybrid_id = slugify(row.get("id", ""))
         if not hybrid_id:
             print(f"Rad {number}: saknar id, hoppar över.")
             continue
-        name = row.get("name") or hybrid_id
         genus = slugify(row.get("genus", "")) or "misc"
         if not row.get("genus"):
             print(f"Rad {number} ({hybrid_id}): saknar genus, använder 'misc'.")
-
         key = (genus, hybrid_id)
         if key in seen:
             print(f"Rad {number}: id '{hybrid_id}' används redan inom {genus}, hoppar över.")
             continue
         seen.add(key)
+        jobs.append({
+            "number": number, "row": row, "id": hybrid_id, "genus": genus,
+            "name": row.get("name") or hybrid_id,
+            "page_rel": f"hybrids/{genus}/{hybrid_id}.html",
+            "hidden": row.get("publish", "").strip().lower() in NO_VALUES,
+        })
 
-        page_rel = f"hybrids/{genus}/{hybrid_id}.html"
-        page_file = ROOT / page_rel
-        hidden = row.get("publish", "").strip().lower() in NO_VALUES
-
-        if hidden:
+    targets, names = {}, {}
+    to_delete = set()
+    for job in jobs:
+        page_file = ROOT / job["page_rel"]
+        if job["hidden"]:
             if page_file.exists() and MARKER in page_file.read_text(encoding="utf-8"):
+                to_delete.add(job["page_rel"])
+            continue
+        targets[f"{job['genus']}/{job['id']}"] = job["page_rel"]
+        targets.setdefault(job["id"], job["page_rel"])
+        names[job["page_rel"]] = job["name"]
+    for key, rel in disk_pages(to_delete).items():
+        targets.setdefault(key, rel)
+
+    # Steg 2: bygg sidorna.
+    for job in jobs:
+        row, hybrid_id, genus = job["row"], job["id"], job["genus"]
+        name, page_rel = job["name"], job["page_rel"]
+        page_file = ROOT / page_rel
+
+        if job["hidden"]:
+            if page_rel in to_delete:
                 page_file.unlink()
                 removed.append(page_rel)
             continue
 
         date = row.get("date", "")
         if date and not re.match(r"^\d{4}-\d{2}-\d{2}$", date):
-            print(f"Rad {number} ({hybrid_id}): datumet '{date}' bör skrivas ÅÅÅÅ-MM-DD.")
+            print(f"Rad {job['number']} ({hybrid_id}): datumet '{date}' bör skrivas ÅÅÅÅ-MM-DD.")
 
         summary = row.get("summary", "")
-        if not summary and row.get("parentage"):
-            summary = f"Cross between {row['parentage']}."
+        if not summary:
+            plain = build_parentage(row, genus, hybrid_id, page_rel, targets, names, links=False)
+            if plain:
+                summary = f"Cross between {plain}."
 
         images = prepare_images(row, genus, hybrid_id, manifest)
         card_image = images[0][1] if images else ""
@@ -386,8 +469,9 @@ def main():
         if page_file.exists() and MARKER not in page_file.read_text(encoding="utf-8"):
             skipped.append(page_rel)
             continue
+        parentage = build_parentage(row, genus, hybrid_id, page_rel, targets, names)
         page_file.parent.mkdir(parents=True, exist_ok=True)
-        page_file.write_text(build_page(template, row, name, images), encoding="utf-8")
+        page_file.write_text(build_page(template, row, name, images, parentage), encoding="utf-8")
         written.append(page_rel)
 
     if manifest or IMAGE_MANIFEST.exists():
