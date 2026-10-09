@@ -130,6 +130,25 @@ def load_all_rows():
     return rows
 
 
+# Fält där ett inledande ' (sortnamn som 'Pinafore') kan ha försvunnit.
+APOSTROPHE_FIELDS = ("name", "official_name", "holding_name", "seed_parent",
+                     "pollen_parent", "parentage", "summary")
+
+
+def restore_leading_apostrophe(row):
+    """Google Sheets tolkar ett ' först i en cell som 'det här är text' och
+    tar bort det ur värdet, så 'Pinafore' exporteras som Pinafore'. Slutar ett
+    värde på ' och har ett udda antal ' är det första citattecknet borta, så
+    vi sätter tillbaka det. Returnerar antal rättade fält."""
+    fixed = 0
+    for field in APOSTROPHE_FIELDS:
+        value = row.get(field, "")
+        if value.endswith("'") and not value.startswith("'") and value.count("'") % 2 == 1:
+            row[field] = "'" + value
+            fixed += 1
+    return fixed
+
+
 def parse_rows(text):
     reader = csv.DictReader(io.StringIO(text))
     rows = []
@@ -140,6 +159,7 @@ def parse_rows(text):
                 continue
             row[key.strip().lower()] = (value or "").strip()
         if any(row.values()):
+            restore_leading_apostrophe(row)
             rows.append(row)
     return rows
 
