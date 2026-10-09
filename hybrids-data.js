@@ -24,6 +24,33 @@ const hybrids = [
     "genus": "kohleria"
   },
   {
+    "name": "<i>Kohleria</i> 'AL\u2019s Archie'",
+    "date": "2026-10-09",
+    "dateDisplay": "October 9, 2026",
+    "image": "/images/kohleriahybrids/als-archie/als-archie-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i>  PIN-HIR-001 \u00d7 'Ryskan'.",
+    "page": "hybrids/kohleria/als-archie.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Autumn Star'",
+    "date": "2026-10-09",
+    "dateDisplay": "October 9, 2026",
+    "image": "/images/kohleriahybrids/als-autumn-star/als-autumn-star-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Aitvaras' \u00d7 <i>stuebeliana</i>.",
+    "page": "hybrids/kohleria/als-autumn-star.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Baya'",
+    "date": "2026-10-09",
+    "dateDisplay": "October 9, 2026",
+    "image": "/images/kohleriahybrids/als-baya/als-baya-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Egon' \u00d7 'AL\u2019s Billy'.",
+    "page": "hybrids/kohleria/als-baya.html",
+    "genus": "kohleria"
+  },
+  {
     "name": "<i>Kohleria</i> 'AL\u2019s Egon'",
     "date": "2022-10-15",
     "dateDisplay": "July 1, 2026",
