@@ -2,7 +2,7 @@
 :root {
   --green-dark: #2f4a35;
   --green-mid: #4f7a5a;
-  --green-light: #e8f2ea;   /* very light green, same hue as the header (cards + left column in fact tables) */
+  --green-light: #e6f2e0;   /* very light green (cards + left column in fact tables). Blue is the lowest channel on purpose, so it reads green, not mint/blue */
   --accent: #b5651d;
   --text: #2b2b2b;
   --max-width: 1000px;
