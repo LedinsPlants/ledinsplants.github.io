@@ -286,11 +286,10 @@ table.database tr:hover td {
   }
 }
 
-/* Listor över arter / andras hybrider på genera.html */
-.plant-list { list-style: none; padding: 0; margin: 0 0 1.5rem; display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.6rem; }
-.plant-list a { display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem;
-  background: var(--green-light); border-radius: 6px; text-decoration: none; color: inherit; }
-.plant-list a:hover { filter: brightness(0.97); }
-.plant-list img, .plant-list-noimg { width: 56px; height: 56px; object-fit: cover; border-radius: 4px; flex: none; background: rgba(0,0,0,0.05); }
-.plant-list small { display: block; opacity: 0.75; }
+/* Kort för arter / andras hybrider på genera.html */
+.plant-lists h3 { margin: 2rem 0 0.3rem; }
+.plant-lists .hybrid-grid { margin-top: 1rem; margin-bottom: 2rem; }
+.hybrid-card .card-noimg { height: 180px; background: rgba(0,0,0,0.05); }
+
+/* Lista över avkommor på sidorna */
+ul.offspring { padding-left: 1.2rem; }

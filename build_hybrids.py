@@ -207,6 +207,14 @@ def site_path(path):
     return "/" + path
 
 
+def short_text(text, limit=140):
+    """Första stycket av en anteckning, utan HTML och förkortat, till korten."""
+    plain = strip_tags(re.split(r"\r?\n+", text.strip())[0]) if text.strip() else ""
+    if len(plain) > limit:
+        plain = plain[:limit].rsplit(" ", 1)[0].rstrip(",.;: ") + "…"
+    return plain
+
+
 def split_list(text):
     return [p.strip() for p in re.split(r"[;\n]+", text) if p.strip()]
 
@@ -385,7 +393,7 @@ def disk_pages(skip):
     return found
 
 
-def build_page(template, row, name, images, parentage="", fact_rows=FACT_ROWS):
+def build_page(template, row, name, images, parentage="", fact_rows=FACT_ROWS, offspring=()):
     alt = html.escape(strip_tags(name), quote=True)
 
     def img_tag(src):
@@ -405,6 +413,10 @@ def build_page(template, row, name, images, parentage="", fact_rows=FACT_ROWS):
     if row.get("notes"):
         paragraphs = [p.strip() for p in re.split(r"\r?\n+", row["notes"]) if p.strip()]
         notes = "<h3>Notes</h3>\n" + "\n".join(f"<p>{p}</p>" for p in paragraphs)
+
+    if offspring:
+        items = "\n".join(f'<li><a href="/{page}">{label}</a></li>' for label, page in offspring)
+        notes += f'\n<h3>Offspring</h3>\n<ul class="offspring">\n{items}\n</ul>'
 
     # Övriga bilder staplas under anteckningarna, som på handgjorda sidor.
     gallery = "\n\n".join(img_tag(main) for main, _ in images[1:])
@@ -480,6 +492,21 @@ def main():
     for key, rel in disk_pages(to_delete).items():
         targets.setdefault(key, rel)
 
+    # Omvänd koppling: vilka sorter har den här sidan som förälder?
+    offspring = {}
+    for job in jobs:
+        if job["hidden"] or job["kind"] != "hybrid":
+            continue
+        for column in ("seed_parent_id", "pollen_parent_id"):
+            parent_id = job["row"].get(column, "")
+            target = find_target(parent_id, job["genus"], targets) if parent_id else None
+            if target and target != job["page_rel"]:
+                found = offspring.setdefault(target, {})
+                found[job["page_rel"]] = job["name"]
+    offspring = {target: sorted(((name, page) for page, name in found.items()),
+                                key=lambda item: strip_tags(item[0]).lower())
+                 for target, found in offspring.items()}
+
     # Steg 2: bygg sidorna.
     for job in jobs:
         row, hybrid_id, genus = job["row"], job["id"], job["genus"]
@@ -499,6 +526,8 @@ def main():
             lists[kind].append({
                 "name": name,
                 "sub": row.get("clone_name" if kind == "species" else "hybridizer", ""),
+                "subLabel": "Clone" if kind == "species" else "Hybridizer",
+                "summary": short_text(row.get("notes", "")),
                 "image": site_path(card_image) if card_image else "",
                 "page": page_rel,
                 "genus": genus,
@@ -508,7 +537,8 @@ def main():
                 continue
             page_file.parent.mkdir(parents=True, exist_ok=True)
             page_file.write_text(build_page(template, row, name, images, "",
-                                            KINDS[kind]["facts"]), encoding="utf-8")
+                                            KINDS[kind]["facts"], offspring.get(page_rel, ())),
+                                 encoding="utf-8")
             written.append(page_rel)
             continue
 
@@ -540,7 +570,8 @@ def main():
             continue
         parentage = build_parentage(row, genus, hybrid_id, page_rel, targets, names)
         page_file.parent.mkdir(parents=True, exist_ok=True)
-        page_file.write_text(build_page(template, row, name, images, parentage), encoding="utf-8")
+        page_file.write_text(build_page(template, row, name, images, parentage,
+                                        offspring=offspring.get(page_rel, ())), encoding="utf-8")
         written.append(page_rel)
 
     if manifest or IMAGE_MANIFEST.exists():
