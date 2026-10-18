@@ -292,4 +292,7 @@ table.database tr:hover td {
 .hybrid-card .card-noimg { height: 180px; background: rgba(0,0,0,0.05); }
 
 /* Lista över avkommor på sidorna */
-ul.offspring { padding-left: 1.2rem; }
+ul.offspring { padding-left: 1.2rem; columns: 3 14rem; column-gap: 2rem; }
+ul.offspring li { break-inside: avoid; margin-bottom: 0.3rem; }
+
+.genus-links { font-size: 1.15rem; line-height: 1.9; }
