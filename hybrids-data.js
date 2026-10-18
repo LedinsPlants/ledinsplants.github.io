@@ -10,35 +10,8 @@ const hybrids = [
     "date": "2026-10-11",
     "dateDisplay": "October 11, 2026",
     "image": "/images/kohleriahybrids/bob-kei-003/bob-kei-003-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'MM's Bobina' \u00d7 'AL's Keiko'.",
+    "summary": "Cross between <i>Kohleria</i> 'MM\u2019s Bobina' \u00d7 'AL\u2019s Keiko'.",
     "page": "hybrids/kohleria/bob-kei-003.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> 'AL\u2019s Castor'",
-    "date": "2026-10-11",
-    "dateDisplay": "October 11, 2026",
-    "image": "/images/kohleriahybrids/als-castor/als-castor-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Palanga' \u00d7 <i>Kohleria</i>  'AL\u2019s Aitvaras'.",
-    "page": "hybrids/kohleria/als-castor.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> 'AL\u2019s Crios'",
-    "date": "2026-10-11",
-    "dateDisplay": "October 11, 2026",
-    "image": "/images/kohleriahybrids/als-crios/als-crios-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Aitvaras' \u00d7 <i>Kohleria</i>  'Pinafore'.",
-    "page": "hybrids/kohleria/als-crios.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> 'AL\u2019s Embers'",
-    "date": "2026-10-11",
-    "dateDisplay": "October 11, 2026",
-    "image": "/images/kohleriahybrids/als-embers/als-embers-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Billy' \u00d7 KIT-SEL-01.",
-    "page": "hybrids/kohleria/als-embers.html",
     "genus": "kohleria"
   },
   {
@@ -46,62 +19,35 @@ const hybrids = [
     "date": "2026-10-11",
     "dateDisplay": "October 11, 2026",
     "image": "/images/kohleriahybrids/als-emin/als-emin-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Egon' \u00d7 KIT-SEL-01.",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Egon' \u00d7 KIT-SEL-01.",
     "page": "hybrids/kohleria/als-emin.html",
     "genus": "kohleria"
   },
   {
-    "name": "<i>Kohleria</i> 'AL\u2019s Billy'",
-    "date": "2026-10-10",
-    "dateDisplay": "October 10, 2026",
-    "image": "/images/kohleriahybrids/als-billy/als-billy-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Palanga' \u00d7 'AL\u2019s Svante'.",
-    "page": "hybrids/kohleria/als-billy.html",
+    "name": "<i>Kohleria</i> 'AL\u2019s Embers'",
+    "date": "2026-10-11",
+    "dateDisplay": "October 11, 2026",
+    "image": "/images/kohleriahybrids/als-embers/als-embers-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Billy' \u00d7 KIT-SEL-01.",
+    "page": "hybrids/kohleria/als-embers.html",
     "genus": "kohleria"
   },
   {
-    "name": "<i>Kohleria</i> 'AL\u2019s Boa'",
-    "date": "2026-10-10",
-    "dateDisplay": "October 10, 2026",
-    "image": "/images/kohleriahybrids/als-boa/als-boa-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Heinrich' \u00d7 KIT-SEL-02.",
-    "page": "hybrids/kohleria/als-boa.html",
+    "name": "<i>Kohleria</i> 'AL\u2019s Crios'",
+    "date": "2026-10-11",
+    "dateDisplay": "October 11, 2026",
+    "image": "/images/kohleriahybrids/als-crios/als-crios-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Aitvaras' \u00d7 'Pinafore'.",
+    "page": "hybrids/kohleria/als-crios.html",
     "genus": "kohleria"
   },
   {
-    "name": "<i>Kohleria</i> BOB-EVE-007",
-    "date": "2026-10-10",
-    "dateDisplay": "October 10, 2026",
-    "image": "/images/kohleriahybrids/bob-eve-007/bob-eve-007-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'MM's Bobina' \u00d7 'Ni's Evelina'.",
-    "page": "hybrids/kohleria/bob-eve-007.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> BOB-EVE-008",
-    "date": "2026-10-10",
-    "dateDisplay": "October 10, 2026",
-    "image": "/images/kohleriahybrids/bob-eve-008/bob-eve-008-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'MM's Bobina' \u00d7 'Ni's Evelina'.",
-    "page": "hybrids/kohleria/bob-eve-008.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> BOB-EVE-010",
-    "date": "2026-10-10",
-    "dateDisplay": "October 10, 2026",
-    "image": "/images/kohleriahybrids/bob-eve-010/bob-eve-010-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'MM's Bobina' \u00d7 'Ni's Evelina'.",
-    "page": "hybrids/kohleria/bob-eve-010.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> BOB-KEI-001",
-    "date": "2026-10-10",
-    "dateDisplay": "October 10, 2026",
-    "image": "/images/kohleriahybrids/bob-kei-001/bob-kei-001-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'MM's Bobina' \u00d7 'AL's Keiko'.",
-    "page": "hybrids/kohleria/bob-kei-001.html",
+    "name": "<i>Kohleria</i> 'AL\u2019s Castor'",
+    "date": "2026-10-11",
+    "dateDisplay": "October 11, 2026",
+    "image": "/images/kohleriahybrids/als-castor/als-castor-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Palanga' \u00d7 'AL\u2019s Aitvaras'.",
+    "page": "hybrids/kohleria/als-castor.html",
     "genus": "kohleria"
   },
   {
@@ -109,17 +55,62 @@ const hybrids = [
     "date": "2026-10-10",
     "dateDisplay": "October 10, 2026",
     "image": "/images/kohleriahybrids/bob-kei-002/bob-kei-002-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'MM's Bobina' \u00d7 'AL's Keiko'.",
+    "summary": "Cross between <i>Kohleria</i> 'MM\u2019s Bobina' \u00d7 'AL\u2019s Keiko'.",
     "page": "hybrids/kohleria/bob-kei-002.html",
     "genus": "kohleria"
   },
   {
-    "name": "<i>Kohleria</i> 'AL\u2019s Aitvaras'",
-    "date": "2026-10-09",
-    "dateDisplay": "October 9, 2026",
-    "image": "/images/kohleriahybrids/als-aitvaras/als-aitvaras-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  PIN-HIR-013 \u00d7 'Ryskan'.",
-    "page": "hybrids/kohleria/als-aitvaras.html",
+    "name": "<i>Kohleria</i> BOB-KEI-001",
+    "date": "2026-10-10",
+    "dateDisplay": "October 10, 2026",
+    "image": "/images/kohleriahybrids/bob-kei-001/bob-kei-001-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'MM\u2019s Bobina' \u00d7 'AL\u2019s Keiko'.",
+    "page": "hybrids/kohleria/bob-kei-001.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> BOB-EVE-010",
+    "date": "2026-10-10",
+    "dateDisplay": "October 10, 2026",
+    "image": "/images/kohleriahybrids/bob-eve-010/bob-eve-010-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'MM\u2019s Bobina' \u00d7 'Ni\u2019s Evelina'.",
+    "page": "hybrids/kohleria/bob-eve-010.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> BOB-EVE-008",
+    "date": "2026-10-10",
+    "dateDisplay": "October 10, 2026",
+    "image": "/images/kohleriahybrids/bob-eve-008/bob-eve-008-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'MM\u2019s Bobina' \u00d7 'Ni\u2019s Evelina'.",
+    "page": "hybrids/kohleria/bob-eve-008.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> BOB-EVE-007",
+    "date": "2026-10-10",
+    "dateDisplay": "October 10, 2026",
+    "image": "/images/kohleriahybrids/bob-eve-007/bob-eve-007-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'MM\u2019s Bobina' \u00d7 'Ni\u2019s Evelina'.",
+    "page": "hybrids/kohleria/bob-eve-007.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Boa'",
+    "date": "2026-10-10",
+    "dateDisplay": "October 10, 2026",
+    "image": "/images/kohleriahybrids/als-boa/als-boa-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Heinrich' \u00d7 KIT-SEL-02.",
+    "page": "hybrids/kohleria/als-boa.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Billy'",
+    "date": "2026-10-10",
+    "dateDisplay": "October 10, 2026",
+    "image": "/images/kohleriahybrids/als-billy/als-billy-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Palanga' \u00d7 'AL\u2019s Svante'.",
+    "page": "hybrids/kohleria/als-billy.html",
     "genus": "kohleria"
   },
   {
@@ -127,26 +118,8 @@ const hybrids = [
     "date": "2026-10-09",
     "dateDisplay": "October 9, 2026",
     "image": "/images/kohleriahybrids/pin-hir-013/pin-hir-013-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'Pinafore' \u00d7 <i>hirsuta</i>.",
+    "summary": "Cross between <i>Kohleria</i> 'Pinafore' \u00d7 <i>hirsuta</i>.",
     "page": "hybrids/kohleria/pin-hir-013.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> 'AL\u2019s Archie'",
-    "date": "2026-10-09",
-    "dateDisplay": "October 9, 2026",
-    "image": "/images/kohleriahybrids/als-archie/als-archie-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  PIN-HIR-001 \u00d7 'Ryskan'.",
-    "page": "hybrids/kohleria/als-archie.html",
-    "genus": "kohleria"
-  },
-  {
-    "name": "<i>Kohleria</i> 'AL\u2019s Autumn Star'",
-    "date": "2026-10-09",
-    "dateDisplay": "October 9, 2026",
-    "image": "/images/kohleriahybrids/als-autumn-star/als-autumn-star-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Aitvaras' \u00d7 <i>stuebeliana</i>.",
-    "page": "hybrids/kohleria/als-autumn-star.html",
     "genus": "kohleria"
   },
   {
@@ -154,13 +127,40 @@ const hybrids = [
     "date": "2026-10-09",
     "dateDisplay": "October 9, 2026",
     "image": "/images/kohleriahybrids/als-baya/als-baya-1-thumb.jpg",
-    "summary": "Cross between <i>Kohleria</i>  'AL\u2019s Egon' \u00d7 'AL\u2019s Billy'.",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Egon' \u00d7 'AL\u2019s Billy'.",
     "page": "hybrids/kohleria/als-baya.html",
     "genus": "kohleria"
   },
   {
+    "name": "<i>Kohleria</i> 'AL\u2019s Autumn Star'",
+    "date": "2026-10-09",
+    "dateDisplay": "October 9, 2026",
+    "image": "/images/kohleriahybrids/als-autumn-star/als-autumn-star-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Aitvaras' \u00d7 <i>stuebeliana</i>.",
+    "page": "hybrids/kohleria/als-autumn-star.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Archie'",
+    "date": "2026-10-09",
+    "dateDisplay": "October 9, 2026",
+    "image": "/images/kohleriahybrids/als-archie/als-archie-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> PIN-HIR-001 \u00d7 'Ryskan'.",
+    "page": "hybrids/kohleria/als-archie.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Aitvaras'",
+    "date": "2026-10-09",
+    "dateDisplay": "October 9, 2026",
+    "image": "/images/kohleriahybrids/als-aitvaras/als-aitvaras-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> PIN-HIR-013 \u00d7 'Ryskan'.",
+    "page": "hybrids/kohleria/als-aitvaras.html",
+    "genus": "kohleria"
+  },
+  {
     "name": "<i>Kohleria</i> 'AL\u2019s Egon'",
-    "date": "2022-10-15",
+    "date": "2026-07-01",
     "dateDisplay": "July 1, 2026",
     "image": "/images/kohleriahybrids/als-egon/kohleria-als-egon-2.jpg",
     "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Palanga' \u00d7 'AL\u2019s Aitvaras'.",
@@ -169,7 +169,7 @@ const hybrids = [
   },
   {
     "name": "<i>Kohleria</i> 'AL\u2019s Valborg'",
-    "date": "2022-10-15",
+    "date": "2026-06-30",
     "dateDisplay": "June 30, 2026",
     "image": "/images/kohleriahybrids/als-valborg/kohleria-als-valborg.jpg",
     "summary": "Cross between <i>Kohleria</i> 'Astarte' \u00d7 'Brimstone'.",
