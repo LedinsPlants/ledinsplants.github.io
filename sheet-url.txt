@@ -8,4 +8,9 @@ achimenes = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9Zt
 sinningia = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=1399907788&single=true&output=csv
 misc      = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=28606789&single=true&output=csv
 #
+# Två särskilda etiketter:
+#   species = adress   (bladet Arter)
+#   others  = adress   (bladet Andras hybrider)
+# Släktet (kohleria, achimenes ...) anges då i kolumnen genus i bladet.
+#
 # Är alla rader här bortkommenterade används filen hybrids.csv i stället.
