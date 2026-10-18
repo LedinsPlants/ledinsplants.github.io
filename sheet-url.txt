@@ -3,10 +3,6 @@
 # Adressen får du via Arkiv -> Dela -> Publicera på webben (välj bladet och formatet CSV).
 #
 # Exempel (ta bort # framför raderna och byt ut adresserna):
-kohleria  = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=1205267741&single=true&output=csv
-achimenes = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=1234484613&single=true&output=csv
-sinningia = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=1399907788&single=true&output=csv
-misc      = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9ZtYs-DpbOJsKhVgrO5oVatdLwibRxtAluriUymlghnkixb3pKKvjZz9o2IZOw/pub?gid=28606789&single=true&output=csv
 #
 # Två särskilda etiketter:
 #   species = adress   (bladet Arter)
@@ -14,3 +10,10 @@ misc      = https://docs.google.com/spreadsheets/d/e/2PACX-1vQ8xI5jl7USj3TifL9Zt
 # Släktet (kohleria, achimenes ...) anges då i kolumnen genus i bladet.
 #
 # Är alla rader här bortkommenterade används filen hybrids.csv i stället.
+
+kohleria  = https://docs.google.com/spreadsheets/d/e/2PACX-1vRqiGb1Bt3y6gQtFefA2SoHuKUKhqZW0_5oNVVs1ofWzPCYQqPT1IUwxhZNurhZIoMLMtwkGrWajL7I/pub?gid=974909530&single=true&output=csv
+achimenes = https://docs.google.com/spreadsheets/d/e/2PACX-1vRqiGb1Bt3y6gQtFefA2SoHuKUKhqZW0_5oNVVs1ofWzPCYQqPT1IUwxhZNurhZIoMLMtwkGrWajL7I/pub?gid=629136158&single=true&output=csv
+sinningia = https://docs.google.com/spreadsheets/d/e/2PACX-1vRqiGb1Bt3y6gQtFefA2SoHuKUKhqZW0_5oNVVs1ofWzPCYQqPT1IUwxhZNurhZIoMLMtwkGrWajL7I/pub?gid=243857137&single=true&output=csv
+misc      = https://docs.google.com/spreadsheets/d/e/2PACX-1vRqiGb1Bt3y6gQtFefA2SoHuKUKhqZW0_5oNVVs1ofWzPCYQqPT1IUwxhZNurhZIoMLMtwkGrWajL7I/pub?gid=1672825335&single=true&output=csv
+species   = https://docs.google.com/spreadsheets/d/e/2PACX-1vRqiGb1Bt3y6gQtFefA2SoHuKUKhqZW0_5oNVVs1ofWzPCYQqPT1IUwxhZNurhZIoMLMtwkGrWajL7I/pub?gid=1946418510&single=true&output=csv
+others    = https://docs.google.com/spreadsheets/d/e/2PACX-1vRqiGb1Bt3y6gQtFefA2SoHuKUKhqZW0_5oNVVs1ofWzPCYQqPT1IUwxhZNurhZIoMLMtwkGrWajL7I/pub?gid=1241001055&single=true&output=csv
