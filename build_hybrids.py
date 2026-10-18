@@ -416,7 +416,7 @@ def build_page(template, row, name, images, parentage="", fact_rows=FACT_ROWS, o
 
     if offspring:
         items = "\n".join(f'<li><a href="/{page}">{label}</a></li>' for label, page in offspring)
-        notes += f'\n<h3>Offspring</h3>\n<ul class="offspring">\n{items}\n</ul>'
+        notes += f'\n<h3>Derived hybrids</h3>\n<ul class="offspring">\n{items}\n</ul>'
 
     # Övriga bilder staplas under anteckningarna, som på handgjorda sidor.
     gallery = "\n\n".join(img_tag(main) for main, _ in images[1:])
