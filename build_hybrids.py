@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parent
 URL_FILE = ROOT / "sheet-url.txt"
 TEMPLATE = ROOT / "page-template.html"
 DATA_JS = ROOT / "hybrids-data.js"
+LISTS_JS = ROOT / "plant-lists-data.js"
 
 MARKER = "<!-- auto-generated-hybrid-page -->"
 PLACEHOLDER_IMAGE = "https://via.placeholder.com/400x300?text=Hybrid+photo"
@@ -67,6 +68,23 @@ FACT_ROWS = [
 
 NO_VALUES = {"no", "nej", "n", "false", "0"}
 
+# Tre sorters rader. Etiketten i sheet-url.txt avgör vilken sort ett blad är:
+#   species = ...   -> arter            (sidor i species/<genus>/)
+#   others  = ...   -> andra odlares hybrider (sidor i other-hybrids/<genus>/)
+#   allt annat      -> mina egna hybrider (sidor i hybrids/<genus>/)
+KINDS = {
+    "hybrid": {"dir": "hybrids", "images": "images/{genus}hybrids/{id}",
+               "facts": FACT_ROWS},
+    "species": {"dir": "species", "images": "images/species/{genus}/{id}",
+                "facts": [("Clone name", "clone_name"),
+                          ("Produces pollen?", "pollen")]},
+    "others": {"dir": "other-hybrids", "images": "images/other-hybrids/{genus}/{id}",
+               "facts": [("Hybridizer", "hybridizer"),
+                         ("Produces pollen?", "pollen")]},
+}
+KIND_LABELS = {"species": "species", "arter": "species", "others": "others",
+               "other": "others", "andras": "others"}
+
 
 def fail(message):
     print(f"\nFEL: {message}", file=sys.stderr)
@@ -83,7 +101,7 @@ def read_sources():
     Etiketten (t.ex. kohleria) används som genus för rader där kolumnen genus
     är tom. Adressen får också vara en filsökväg i repot (t.ex. hybrids.csv).
     """
-    sources = []
+    sources = []  # (etikett, adress)
     if URL_FILE.exists():
         for line in URL_FILE.read_text(encoding="utf-8").splitlines():
             line = line.strip()
@@ -123,8 +141,10 @@ def load_all_rows():
     sources = read_sources() or [(None, "hybrids.csv")]
     rows = []
     for label, location in sources:
+        kind = KIND_LABELS.get(label, "hybrid")
         for row in parse_rows(load_csv_text(location)):
-            if label and not row.get("genus"):
+            row["_kind"] = kind
+            if kind == "hybrid" and label and not row.get("genus"):
                 row["genus"] = label
             rows.append(row)
     return rows
@@ -262,13 +282,12 @@ def image_values(row):
     return values
 
 
-def prepare_images(row, genus, hybrid_id, manifest):
+def prepare_images(row, folder, hybrid_id, manifest):
     """Returnerar [(sida, miniatyr), ...] i samma ordning som kolumnerna.
 
     Drive-länkar hämtas, förminskas och sparas i images/<genus>hybrids/<id>/.
     Vanliga sökvägar och webbadresser används som de är.
     """
-    folder = f"images/{genus}hybrids/{hybrid_id}"
     result, keep = [], set()
     for number, value in enumerate(image_values(row), start=1):
         file_id = drive_file_id(value)
@@ -353,18 +372,20 @@ def build_parentage(row, genus, hybrid_id, own_page, targets, names, links=True)
 def disk_pages(skip):
     """Alla hybridsidor som ligger i repot (även handgjorda), nyckel 'genus/id' och 'id'."""
     found = {}
-    base = ROOT / "hybrids"
-    if base.exists():
+    for kind in KINDS.values():
+        base = ROOT / kind["dir"]
+        if not base.exists():
+            continue
         for page in sorted(base.rglob("*.html")):
             rel = page.relative_to(ROOT).as_posix()
             if rel in skip:
                 continue
-            found[f"{page.parent.name}/{page.stem}"] = rel
+            found.setdefault(f"{page.parent.name}/{page.stem}", rel)
             found.setdefault(page.stem, rel)
     return found
 
 
-def build_page(template, row, name, images, parentage=""):
+def build_page(template, row, name, images, parentage="", fact_rows=FACT_ROWS):
     alt = html.escape(strip_tags(name), quote=True)
 
     def img_tag(src):
@@ -376,7 +397,7 @@ def build_page(template, row, name, images, parentage=""):
     facts = ""
     values = dict(row, parentage=parentage)
     fact_lines = [f"<tr><th>{label}</th><td>{values[col]}</td></tr>"
-                  for label, col in FACT_ROWS if values.get(col)]
+                  for label, col in fact_rows if values.get(col)]
     if fact_lines:
         facts = '<table class="facts">\n' + "\n".join(fact_lines) + "\n</table>"
 
@@ -410,6 +431,7 @@ def main():
         fail("Tabellen innehåller inga rader. Avbryter så att inget skrivs över.")
 
     entries = []
+    lists = {"species": [], "others": []}
     seen = set()
     manifest = load_manifest()
     written, skipped, removed = [], [], []
@@ -422,18 +444,20 @@ def main():
         if not hybrid_id:
             print(f"Rad {number}: saknar id, hoppar över.")
             continue
+        kind = row.get("_kind", "hybrid")
         genus = slugify(row.get("genus", "")) or "misc"
         if not row.get("genus"):
             print(f"Rad {number} ({hybrid_id}): saknar genus, använder 'misc'.")
-        key = (genus, hybrid_id)
+        key = (kind, genus, hybrid_id)
         if key in seen:
             print(f"Rad {number}: id '{hybrid_id}' används redan inom {genus}, hoppar över.")
             continue
         seen.add(key)
         jobs.append({
             "number": number, "row": row, "id": hybrid_id, "genus": genus,
+            "kind": kind,
             "name": row.get("name") or hybrid_id,
-            "page_rel": f"hybrids/{genus}/{hybrid_id}.html",
+            "page_rel": f"{KINDS[kind]['dir']}/{genus}/{hybrid_id}.html",
             "hidden": row.get("publish", "").strip().lower() in NO_VALUES,
         })
 
@@ -445,22 +469,47 @@ def main():
             if page_file.exists() and MARKER in page_file.read_text(encoding="utf-8"):
                 to_delete.add(job["page_rel"])
             continue
-        targets[f"{job['genus']}/{job['id']}"] = job["page_rel"]
-        targets.setdefault(job["id"], job["page_rel"])
         names[job["page_rel"]] = job["name"]
+    # Egna hybrider först, så att de vinner om ett id finns på flera ställen.
+    for kind_name in ("hybrid", "species", "others"):
+        for job in jobs:
+            if job["hidden"] or job["kind"] != kind_name:
+                continue
+            targets.setdefault(f"{job['genus']}/{job['id']}", job["page_rel"])
+            targets.setdefault(job["id"], job["page_rel"])
     for key, rel in disk_pages(to_delete).items():
         targets.setdefault(key, rel)
 
     # Steg 2: bygg sidorna.
     for job in jobs:
         row, hybrid_id, genus = job["row"], job["id"], job["genus"]
-        name, page_rel = job["name"], job["page_rel"]
+        name, page_rel, kind = job["name"], job["page_rel"], job["kind"]
         page_file = ROOT / page_rel
 
         if job["hidden"]:
             if page_rel in to_delete:
                 page_file.unlink()
                 removed.append(page_rel)
+            continue
+
+        folder = KINDS[kind]["images"].format(genus=genus, id=hybrid_id)
+        if kind != "hybrid":
+            images = prepare_images(row, folder, hybrid_id, manifest)
+            card_image = images[0][1] if images else ""
+            lists[kind].append({
+                "name": name,
+                "sub": row.get("clone_name" if kind == "species" else "hybridizer", ""),
+                "image": site_path(card_image) if card_image else "",
+                "page": page_rel,
+                "genus": genus,
+            })
+            if page_file.exists() and MARKER not in page_file.read_text(encoding="utf-8"):
+                skipped.append(page_rel)
+                continue
+            page_file.parent.mkdir(parents=True, exist_ok=True)
+            page_file.write_text(build_page(template, row, name, images, "",
+                                            KINDS[kind]["facts"]), encoding="utf-8")
+            written.append(page_rel)
             continue
 
         date = row.get("date", "")
@@ -473,7 +522,7 @@ def main():
             if plain:
                 summary = f"Cross between {plain}."
 
-        images = prepare_images(row, genus, hybrid_id, manifest)
+        images = prepare_images(row, folder, hybrid_id, manifest)
         card_image = images[0][1] if images else ""
         entries.append({
             "name": name,
@@ -512,7 +561,16 @@ def main():
         header + "const hybrids = " + json.dumps(entries, indent=2) + ";\n",
         encoding="utf-8")
 
-    print(f"\nKlart: {len(entries)} hybrider i hybrids-data.js")
+    for items in lists.values():
+        items.sort(key=lambda e: strip_tags(e["name"]).lower())
+    LISTS_JS.write_text(
+        "// AUTOGENERERAD av build_hybrids.py - redigera inte. Arter och andra odlares hybrider.\n\n"
+        "const speciesList = " + json.dumps(lists["species"], indent=2) + ";\n"
+        "const otherHybridsList = " + json.dumps(lists["others"], indent=2) + ";\n",
+        encoding="utf-8")
+
+    print(f"\nKlart: {len(entries)} hybrider i hybrids-data.js, "
+          f"{len(lists['species'])} arter och {len(lists['others'])} andras hybrider i plant-lists-data.js")
     print(f"  Sidor skapade/uppdaterade: {len(written)}")
     for p in written:
         print(f"    + {p}")
