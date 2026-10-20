@@ -6,6 +6,33 @@
 
 const hybrids = [
   {
+    "name": "<i>Kohleria</i> BIL-SEL-01",
+    "date": "2026-10-20",
+    "dateDisplay": "October 20, 2026",
+    "image": "/images/kohleriahybrids/bil-sel-01/bil-sel-01-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Billy' \u00d7 self.",
+    "page": "hybrids/kohleria/bil-sel-01.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Enok'",
+    "date": "2026-10-20",
+    "dateDisplay": "October 20, 2026",
+    "image": "/images/kohleriahybrids/als-enok/als-enok-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Heinrich' \u00d7 'AL\u2019s Billy'.",
+    "page": "hybrids/kohleria/als-enok.html",
+    "genus": "kohleria"
+  },
+  {
+    "name": "<i>Kohleria</i> 'AL\u2019s Erik'",
+    "date": "2026-10-20",
+    "dateDisplay": "October 20, 2026",
+    "image": "/images/kohleriahybrids/als-erik/als-erik-1-thumb.jpg",
+    "summary": "Cross between <i>Kohleria</i> 'AL\u2019s Egon' \u00d7 'AL\u2019s Billy'.",
+    "page": "hybrids/kohleria/als-erik.html",
+    "genus": "kohleria"
+  },
+  {
     "name": "<i>Kohleria</i> BOB-KEI-003",
     "date": "2026-10-11",
     "dateDisplay": "October 11, 2026",

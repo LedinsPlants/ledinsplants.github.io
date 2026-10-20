@@ -31,6 +31,15 @@ const otherHybridsList = [
     "genus": "kohleria"
   },
   {
+    "name": "<i>Kohleria</i> 'Coccinea'",
+    "sub": "",
+    "subLabel": "Hybridizer",
+    "summary": "A beautiful, yet slightly more finicky Kohleria to grow than most other varieties. The plant tends to be a poor rhizome producer, at least\u2026",
+    "image": "/images/other-hybrids/kohleria/kohleria-coccinea/kohleria-coccinea-1-thumb.jpg",
+    "page": "other-hybrids/kohleria/kohleria-coccinea.html",
+    "genus": "kohleria"
+  },
+  {
     "name": "<i>Kohleria</i> 'Ryskan'",
     "sub": "",
     "subLabel": "Hybridizer",
